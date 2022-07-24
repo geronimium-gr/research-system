@@ -1,10 +1,12 @@
 import React from "react";
-import ButtonGroup from "./components/home/ButtonGroup";
+import Header from "./components/home/Header";
+import ThesisList from "./components/home/ThesisList";
 
 function App() {
   return (
     <div className="App">
-      <ButtonGroup />
+      <Header />
+      <ThesisList />
     </div>
   );
 }
