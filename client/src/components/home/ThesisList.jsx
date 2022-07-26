@@ -2,9 +2,49 @@ import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import thesisData from "../data/sample-data";
 import { Column } from "primereact/column";
+import { Dropdown } from "primereact/dropdown";
 
 const ThesisList = () => {
   const [thesis, setThesis] = useState([]);
+
+  const [first, setFirst] = useState(0);
+  const [rows, setRows] = useState(10);
+
+  const customPage = (event) => {
+    setFirst(event.first);
+    setRows(event.rows);
+  };
+
+  const pageTemplate = {
+    layout: "RowsPerPageDropdown CurrentPageReport PrevPageLink NextPageLink",
+    RowsPerPageDropdown: (options) => {
+      const dropdownOptions = [
+        { label: 10, value: 10 },
+        { label: 20, value: 20 },
+        { label: 50, value: 50 },
+      ];
+
+      return (
+        <>
+          <span className="mx-1 text-stone-400 select-none">
+            Items per page:{" "}
+          </span>
+          <Dropdown
+            value={options.value}
+            options={dropdownOptions}
+            onChange={options.onChange}
+          />
+        </>
+      );
+    },
+    CurrentPageReport: (options) => {
+      return (
+        <span className="text-stone-400 select-none text-center w-[120px]">
+          {options.first} - {options.last} of {options.totalRecords}
+        </span>
+      );
+    },
+  };
 
   const columns = [
     {
@@ -26,6 +66,12 @@ const ThesisList = () => {
       header: "Section",
       style: "3rem",
       justifyContent: "center",
+    },
+    {
+      field: "course",
+      header: "Course",
+      style: "20rem",
+      justifyContent: "left",
     },
     {
       field: "yearPublished",
@@ -94,9 +140,14 @@ const ThesisList = () => {
         key={col.field}
         field={col.field}
         header={col.header}
-        headerStyle={{ justifyContent: "center", padding: "2rem" }}
-        style={{ minWidth: col.style, justifyContent: col.justifyContent }}
+        headerStyle={{ justifyContent: "center", padding: "1rem 2rem" }}
+        style={{
+          minWidth: col.style,
+          justifyContent: col.justifyContent,
+          whiteSpace: "normal",
+        }}
         resizeable={col.resizeable}
+        sortable
       />
     );
   });
@@ -112,9 +163,14 @@ const ThesisList = () => {
         responsiveLayout="scroll"
         dataKey="thesisId"
         size="large"
-        rows={10}
+        rows={rows}
         showGridlines
         stripedRows
+        paginator
+        paginatorTemplate={pageTemplate}
+        first={first}
+        onPage={customPage}
+        sortMode="single"
       >
         {loopColumns}
       </DataTable>
