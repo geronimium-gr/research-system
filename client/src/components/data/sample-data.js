@@ -22,6 +22,28 @@ const thesisData = [
     softcopy: "",
   },
   {
+    thesisId: "1234",
+    title:
+      "In Search of the Mysterious Dr Weeks: A Fragment of Sandwich History",
+    course: "Bachelor of Business Administration",
+    yearLevel: 4,
+    section: 3,
+    yearPublished: "2021",
+    authors: "Lee Sae Rom",
+    panelists: "Song Ha Young (BSc)",
+    copies: 5,
+    volume: 3,
+    grades: 2,
+    keywords: "Sandwich, Fragments",
+    adviser: "Jang Gyu Ri",
+    chairperson: "Park Ji Won",
+    dean: "Roh Ji Sun",
+    abstract:
+      "Published for The British Society for the History of Science. This leading international journal publishes scholarly papers and review articles on all aspects of the history of science. History of science is interpreted widely to include medicine, technology and social studies of science.",
+    journal: "",
+    softcopy: "",
+  },
+  {
     thesisId: "5678",
     title:
       "Performance Analysis of Synchronization Clock with Various Clock States Using Measured Clock Noises in NG-SDH Networks",
