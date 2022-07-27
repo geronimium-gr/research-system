@@ -6,6 +6,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
+import Highlighter from "react-highlight-words";
 
 const ThesisList = () => {
   const [thesis, setThesis] = useState([]);
@@ -166,7 +167,6 @@ const ThesisList = () => {
       field: "thesisId",
       header: "Thesis ID",
       style: "3rem",
-      resizeable: false,
       justifyContent: "center",
     },
     { field: "title", header: "Title", style: "50rem", justifyContent: "left" },
@@ -268,7 +268,14 @@ const ThesisList = () => {
           whiteSpace: "normal",
           wordBreak: "break-all",
         }}
-        resizeable={col.resizeable}
+        body={(rowData) => (
+          <Highlighter
+            searchWords={[globalFilterValue]}
+            textToHighlight={rowData[col.field].toString()}
+            highlightClassName="searchResult"
+            autoEscape={true}
+          />
+        )}
         sortable
         filter
       />

@@ -8,4 +8,8 @@
   html {
     font-family: "Roboto", sans-serif;
   }
+
+  .searchResult {
+    @apply text-white font-bold underline decoration-pink-500 bg-transparent;
+  }
 }
