@@ -13,3 +13,10 @@
     @apply text-white font-bold underline decoration-pink-500 bg-transparent;
   }
 }
+
+.p-datatable[pr_id_2] .p-datatable-thead > tr > th:nth-child(1),
+.p-datatable[pr_id_2] .p-datatable-tbody > tr > td:nth-child(1),
+.p-datatable[pr_id_2] .p-datatable-tfoot > tr > td:nth-child(1) {
+  flex: none !important;
+  border-width: 0px;
+}

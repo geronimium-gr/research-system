@@ -5,6 +5,7 @@ import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import { Card } from "primereact/card";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import Highlighter from "react-highlight-words";
 
@@ -18,6 +19,8 @@ const ThesisList = () => {
   const [loading, setLoading] = useState(true);
 
   const [globalFilterValue, setGlobalFilterValue] = useState("");
+
+  const [expandedRows, setExpandedRows] = useState(null);
 
   // Search Box
   const renderHeader = () => {
@@ -169,7 +172,12 @@ const ThesisList = () => {
       style: "3rem",
       justifyContent: "center",
     },
-    { field: "title", header: "Title", style: "50rem", justifyContent: "left" },
+    {
+      field: "title",
+      header: "Title",
+      style: "40rem",
+      justifyContent: "left",
+    },
     {
       field: "course",
       header: "Course",
@@ -242,8 +250,25 @@ const ThesisList = () => {
       style: "8rem",
       justifyContent: "center",
     },
-    { field: "dean", header: "Dean", style: "8rem", justifyContent: "center" },
+    {
+      field: "dean",
+      header: "Dean",
+      style: "8rem",
+      justifyContent: "center",
+    },
   ];
+
+  const rowExpansionTemplate = (data) => {
+    return (
+      <Card
+        className="p-4 w-[24rem] whitespace-normal break-words md:w-[70rem]"
+        title={data.title}
+        subTitle="Abstract"
+      >
+        <div>{data.abstract}</div>
+      </Card>
+    );
+  };
 
   useEffect(() => {
     setThesis([...thesisData]);
@@ -283,7 +308,7 @@ const ThesisList = () => {
   });
 
   return (
-    <div className="p-4 w-full h-screen">
+    <div className="p-4 w-full h-[45rem] md:h-screen">
       <DataTable
         value={thesis}
         scrollable
@@ -292,7 +317,7 @@ const ThesisList = () => {
         columnResizeMode="expand"
         responsiveLayout="scroll"
         dataKey="thesisId"
-        size="normal"
+        size="small"
         rows={rows}
         showGridlines
         stripedRows
@@ -322,7 +347,22 @@ const ThesisList = () => {
         ]}
         header={renderHeader}
         loading={loading}
+        expandedRows={expandedRows}
+        onRowToggle={(e) => setExpandedRows(e.data)}
+        rowExpansionTemplate={(e) => rowExpansionTemplate(e)}
       >
+        <Column
+          expander
+          headerStyle={{
+            justifyContent: "center",
+            padding: "1rem 1.5rem",
+          }}
+          style={{
+            minWidth: "2rem",
+            justifyContent: "center",
+          }}
+          resizeable={false}
+        />
         {loopColumns}
       </DataTable>
     </div>

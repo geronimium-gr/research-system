@@ -1,8 +1,8 @@
 const thesisData = [
   {
-    thesisId: "1234",
+    thesisId: "1234a",
     title:
-      "In Search of the Mysterious Dr Weeks: A Fragment of Sandwich History",
+      "In Search of the Mysterious Dr Weeks: A Fragment of Sandwich History.com",
     course: "Bachelor of Business Administration",
     yearLevel: 4,
     section: 3,
@@ -66,7 +66,7 @@ const thesisData = [
     softcopy: "",
   },
   {
-    thesisId: "9101",
+    thesisId: "9101a",
     title:
       "Breach of Marriage Promise. Promise of Marriage by a Party to a Divorce Action after Entry of Decree Nisi Void as against Public Policy",
     course: "Bachelor of Business Administration",
@@ -88,7 +88,7 @@ const thesisData = [
     softcopy: "",
   },
   {
-    thesisId: "9101",
+    thesisId: "9101b",
     title:
       "Breach of Marriage Promise. Promise of Marriage by a Party to a Divorce Action after Entry of Decree Nisi Void as against Public Policy",
     course: "Bachelor of Business Administration",
@@ -110,7 +110,7 @@ const thesisData = [
     softcopy: "",
   },
   {
-    thesisId: "9101",
+    thesisId: "9101c",
     title:
       "Breach of Marriage Promise. Promise of Marriage by a Party to a Divorce Action after Entry of Decree Nisi Void as against Public Policy",
     course: "Bachelor of Business Administration",
