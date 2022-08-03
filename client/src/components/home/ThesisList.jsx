@@ -8,6 +8,8 @@ import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import Highlighter from "react-highlight-words";
+import AddThesis from "../create-thesis/AddThesis";
+const { jsPDF } = require("jspdf");
 
 const ThesisList = () => {
   const [thesis, setThesis] = useState([]);
@@ -22,15 +24,21 @@ const ThesisList = () => {
 
   const [expandedRows, setExpandedRows] = useState(null);
 
+  const [addThesis, setAddThesis] = useState(false);
+
+  // Toggle States
+  const toggleAddButton = () => setAddThesis((p) => !p);
+
   // Search Box
   const renderHeader = () => {
     return (
-      <div className="flex justify-between">
+      <div className="flex align-items-center gap-4">
         <Button
           className="p-button-outlined"
           icon="pi pi-filter-slash"
-          label="Clear"
           onClick={clearFilter}
+          tooltip="Clear"
+          tooltipOptions={{ position: "bottom" }}
         />
         <span className="p-input-icon-left">
           <i className="pi pi-search" />
@@ -40,6 +48,29 @@ const ThesisList = () => {
             onChange={onGlobalFilterChange}
           />
         </span>
+        <Button
+          type="button"
+          icon="pi pi-file-pdf"
+          onClick={exportPdf}
+          className="p-button-warning mr-2"
+          tooltip="PDF"
+          tooltipOptions={{ position: "bottom" }}
+        />
+        <Button
+          type="button"
+          icon="pi pi-file-excel"
+          onClick={exportExcel}
+          tooltip="Excel"
+          tooltipOptions={{ position: "bottom" }}
+        />
+        <Button
+          type="button"
+          icon="pi pi-plus"
+          className="p-button-success"
+          onClick={toggleAddButton}
+          tooltip="Add"
+          tooltipOptions={{ position: "bottom" }}
+        />
       </div>
     );
   };
@@ -165,6 +196,48 @@ const ThesisList = () => {
     },
   };
 
+  //Exporting Functions
+  const exportExcel = () => {
+    import("xlsx").then((xlsx) => {
+      const worksheet = xlsx.utils.json_to_sheet(thesis);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+      const excelBuffer = xlsx.write(workbook, {
+        bookType: "xlsx",
+        type: "array",
+      });
+      saveAsExcelFile(excelBuffer, "researchTitle");
+    });
+  };
+
+  const saveAsExcelFile = (buffer, fileName) => {
+    import("file-saver").then((module) => {
+      if (module && module.default) {
+        const EXCEL_TYPE =
+          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+        const EXCEL_EXTENSION = ".xlsx";
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE,
+        });
+
+        module.default.saveAs(
+          data,
+          fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION
+        );
+      }
+    });
+  };
+
+  const exportPdf = () => {
+    import("jspdf-autotable").then(() => {
+      const doc = new jsPDF({
+        orientation: "landscape",
+        unit: "in",
+      });
+      doc.autoTable(exportColumns, thesis);
+      doc.save("thesis.pdf");
+    });
+  };
+
   const columns = [
     {
       field: "thesisId",
@@ -257,6 +330,11 @@ const ThesisList = () => {
       justifyContent: "center",
     },
   ];
+
+  const exportColumns = columns.map((col) => ({
+    title: col.header,
+    dataKey: col.field,
+  }));
 
   const rowExpansionTemplate = (data) => {
     return (
@@ -365,6 +443,8 @@ const ThesisList = () => {
         />
         {loopColumns}
       </DataTable>
+
+      {addThesis && <AddThesis show={addThesis} toggle={toggleAddButton} />}
     </div>
   );
 };
