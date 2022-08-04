@@ -25,9 +25,14 @@ const ThesisList = () => {
   const [expandedRows, setExpandedRows] = useState(null);
 
   const [addThesis, setAddThesis] = useState(false);
+  const [updateThesis, setUpdateThesis] = useState(false);
+  const [selectedThesis, setSelectedThesis] = useState("");
 
   // Toggle States
   const toggleAddButton = () => setAddThesis((p) => !p);
+  const toggleUpdateButton = () => {
+    setUpdateThesis((p) => !p);
+  };
 
   // Search Box
   const renderHeader = () => {
@@ -52,7 +57,7 @@ const ThesisList = () => {
           type="button"
           icon="pi pi-file-pdf"
           onClick={exportPdf}
-          className="p-button-warning mr-2"
+          className="p-button-warning"
           tooltip="PDF"
           tooltipOptions={{ position: "bottom" }}
         />
@@ -70,6 +75,27 @@ const ThesisList = () => {
           onClick={toggleAddButton}
           tooltip="Add"
           tooltipOptions={{ position: "bottom" }}
+        />
+      </div>
+    );
+  };
+
+  // Action Buttons
+  const actionTemplate = (row) => {
+    return (
+      <div className="flex gap-2 justify-center">
+        <Button
+          icon="pi pi-pencil"
+          className="p-button-rounded p-button-success"
+          onClick={() =>{
+           setSelectedThesis(row);
+           toggleUpdateButton();
+          }}
+        />
+        <Button
+          icon="pi pi-trash"
+          className="p-button-rounded p-button-warning"
+          // onClick={() => confirmDeleteProduct(rowData)}
         />
       </div>
     );
@@ -441,10 +467,27 @@ const ThesisList = () => {
           }}
           resizeable={false}
         />
+        <Column
+          headerStyle={{
+            justifyContent: "center",
+            padding: "1rem 2rem",
+            wordBreak: "normal",
+          }}
+          body={(rowData) => actionTemplate(rowData)}
+          style={{ minWidth: "1rem", justifyContent: "center" }}
+          resizeable={false}
+        />
         {loopColumns}
       </DataTable>
 
       {addThesis && <AddThesis show={addThesis} toggle={toggleAddButton} />}
+      {updateThesis && (
+        <AddThesis
+          show={updateThesis}
+          toggle={toggleUpdateButton}
+          thesis={selectedThesis}
+        />
+      )}
     </div>
   );
 };
