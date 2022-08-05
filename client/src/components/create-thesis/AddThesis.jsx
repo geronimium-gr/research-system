@@ -26,21 +26,21 @@ const AddThesis = ({ show, toggle, thesis }) => {
 
   const formik = useFormik({
     initialValues: {
-      title: "",
-      course: "",
-      yearLevel: 2,
-      section: 1,
-      yearPublished: 2022,
-      authors: "",
-      panelists: "",
-      copies: "",
-      volume: "",
-      grades: "",
-      keywords: "",
-      adviser: "",
-      chairperson: "",
-      dean: "",
-      abstract: "",
+      title: thesis ? thesis.title : "",
+      course: thesis ? thesis.course : "",
+      yearLevel: thesis ? thesis.yearLevel : 2,
+      section: thesis ? thesis.section : 1,
+      yearPublished: thesis ? thesis.yearPublished : 2022,
+      authors: thesis ? thesis.authors : "",
+      panelists: thesis ? thesis.panelists : "",
+      copies: thesis ? thesis.copies : "",
+      volume: thesis ? thesis.volume : "",
+      grades: thesis ? thesis.grades : "",
+      keywords: thesis ? thesis.keywords : "",
+      adviser: thesis ? thesis.adviser : "",
+      chairperson: thesis ? thesis.chairperson : "",
+      dean: thesis ? thesis.dean : "",
+      abstract: thesis ? thesis.abstract : "",
     },
     validationSchema: validationSchema,
     onSubmit: (values, { resetForm }) => {
@@ -360,7 +360,7 @@ const AddThesis = ({ show, toggle, thesis }) => {
               type="submit"
               disabled={!(formik.dirty && formik.isValid)}
             >
-              Add Thesis Title
+              {thesis ? "Update Thesis" : "Add Thesis Title"}
             </button>
           </div>
         </div>

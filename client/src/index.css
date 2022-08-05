@@ -30,3 +30,7 @@
   flex: none !important;
   border-width: 0px;
 }
+
+.p-dialog {
+  @apply md:max-w-[50%];
+}

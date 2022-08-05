@@ -7,6 +7,8 @@ import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
+import { ConfirmDialog } from "primereact/confirmdialog"; // To use <ConfirmDialog> tag
+import { confirmDialog } from "primereact/confirmdialog"; // To use confirmDialog method
 import Highlighter from "react-highlight-words";
 import AddThesis from "../create-thesis/AddThesis";
 const { jsPDF } = require("jspdf");
@@ -27,12 +29,12 @@ const ThesisList = () => {
   const [addThesis, setAddThesis] = useState(false);
   const [updateThesis, setUpdateThesis] = useState(false);
   const [selectedThesis, setSelectedThesis] = useState("");
+  // const [deleteThesis, setDeleteThesis] = useState(false);
 
   // Toggle States
   const toggleAddButton = () => setAddThesis((p) => !p);
-  const toggleUpdateButton = () => {
-    setUpdateThesis((p) => !p);
-  };
+  const toggleUpdateButton = () => setUpdateThesis((p) => !p);
+  // const toggleDeleteButton = () => setDeleteThesis((p) => !p);
 
   // Search Box
   const renderHeader = () => {
@@ -87,18 +89,29 @@ const ThesisList = () => {
         <Button
           icon="pi pi-pencil"
           className="p-button-rounded p-button-success"
-          onClick={() =>{
-           setSelectedThesis(row);
-           toggleUpdateButton();
+          onClick={() => {
+            setSelectedThesis(row);
+            toggleUpdateButton();
           }}
         />
         <Button
           icon="pi pi-trash"
           className="p-button-rounded p-button-warning"
-          // onClick={() => confirmDeleteProduct(rowData)}
+          onClick={() => confirm(row)}
         />
       </div>
     );
+  };
+
+  //Delete Dialog
+  const confirm = (row) => {
+    confirmDialog({
+      message: `Are you sure you want to delete "${row.title}"?`,
+      header: "Confirmation",
+      icon: "pi pi-exclamation-triangle",
+      accept: () => console.log(row),
+      // reject: () => rejectFunc(),
+    });
   };
 
   // The function who checks if the input matches the Filters (check initFilter()).
@@ -479,6 +492,8 @@ const ThesisList = () => {
         />
         {loopColumns}
       </DataTable>
+
+      <ConfirmDialog />
 
       {addThesis && <AddThesis show={addThesis} toggle={toggleAddButton} />}
       {updateThesis && (
